@@ -6,7 +6,7 @@ const logResult = (title, result) => {
   entry.innerHTML = `<strong>${title}:</strong>`;
   if (Array.isArray(result)) {
     result.forEach((item) => {
-      if (item.startsWith("https://")) {
+      if (typeof item === "string" && item.startsWith("https://")) {
         const img = document.createElement("img");
         img.src = item;
         entry.appendChild(img);
@@ -24,50 +24,41 @@ const logResult = (title, result) => {
   output.appendChild(entry);
 };
 
-const firstPromise = new Promise((resolve, reject) => {
+const firstPromise = new Promise((resolve) => {
   setTimeout(() => {
     resolve(Array.from({ length: 10 }, (_, i) => `Data-${i + 1}`));
   }, 1000);
 });
+
 firstPromise.then((result) => {
   logResult("Promise 1 natijasi", result);
   console.log(result);
-})
-const secondPromise = new Promise((resolve, reject) => {
+});
+
+const secondPromise = new Promise((resolve) => {
   setTimeout(() => {
     resolve(Array.from({ length: 10 }, (_, i) => `String-${i + 1}`));
   }, 1500);
 });
+
 secondPromise.then((result) => {
   logResult("Promise 2 natijasi", result);
   console.log(result);
 });
 
-const thirdPromise = new Promise((resolve, reject) => {
+const thirdPromise = new Promise((resolve) => {
   setTimeout(() => {
     resolve(
-      Array.from(
-        { length: 10 },
-        (_, i) =>
-          `https://xs.uz/upload/post/2020/12/16/e6004e7cc0db45df1124dc01ad04f15f1216.png`
+      Array.from({ length: 10 }, () => 
+        `https://xs.uz/upload/post/2020/12/16/e6004e7cc0db45df1124dc01ad04f15f1216.png`
       )
     );
   }, 2000);
 });
 
-const promises = [firstPromise, secondPromise, thirdPromise];
-
-Promise.all(promises)
-  .then((results) => {
-    logResult("Promise.all natijasi", results.flat());
-  })
-  .catch((error) => {
-    logResult("Promise.all xato", error);
-  });
-
-Promise.allSettled(promises).then((results) => {
-  logResult(
-    "Promise.allSettled natijasi",
-    results.map((r) => r.value || r.reason)
-  );
+thirdPromise.then((result) => {
+  logResult("", result);
+  console.log(result);
 });
+
+const promises = [firstPromise, secondPromise, thirdPromise];
