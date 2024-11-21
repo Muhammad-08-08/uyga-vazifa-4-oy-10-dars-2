@@ -29,11 +29,18 @@ const firstPromise = new Promise((resolve, reject) => {
     resolve(Array.from({ length: 10 }, (_, i) => `Data-${i + 1}`));
   }, 1000);
 });
-
+firstPromise.then((result) => {
+  logResult("Promise 1 natijasi", result);
+  console.log(result);
+})
 const secondPromise = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve(Array.from({ length: 10 }, (_, i) => `String-${i + 1}`));
   }, 1500);
+});
+secondPromise.then((result) => {
+  logResult("Promise 2 natijasi", result);
+  console.log(result);
 });
 
 const thirdPromise = new Promise((resolve, reject) => {
@@ -41,7 +48,8 @@ const thirdPromise = new Promise((resolve, reject) => {
     resolve(
       Array.from(
         { length: 10 },
-        (_, i) => `https://xs.uz/upload/post/2020/12/16/e6004e7cc0db45df1124dc01ad04f15f1216.png`
+        (_, i) =>
+          `https://xs.uz/upload/post/2020/12/16/e6004e7cc0db45df1124dc01ad04f15f1216.png`
       )
     );
   }, 2000);
@@ -56,7 +64,6 @@ Promise.all(promises)
   .catch((error) => {
     logResult("Promise.all xato", error);
   });
-
 
 Promise.allSettled(promises).then((results) => {
   logResult(
